@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>&#127829; Pizza Solidária - Colégio Água Viva Rumo à Argentina</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-area">
+        <p class="hand-text">Hand Vida</p>
+        <h1>&#127829; Pizza Solidária - Colégio Água Viva Rumo à Argentina</h1>
+      </div>
+      <img class="partner-logo school-logo" src="logo-colegio-agua-viva.png" alt="Colégio Água Viva">
+      <nav class="tabs" aria-label="Áreas da ferramenta">
+        <button class="tab active" type="button" data-view="orderView">Pedido</button>
+        <button id="adminAccess" class="tab admin-access" type="button">Área administrativa</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="orderView" class="view active" aria-labelledby="pedidoTitulo">
+        <div class="intro">
+          <h2 id="pedidoTitulo">Formulário de pedido</h2>
+          <p>Preencha os dados, escolha os sabores e confirme para gerar o número do pedido e o link de pagamento.</p>
+        </div>
+
+        <form id="orderForm" class="panel">
+          <fieldset>
+            <legend>Identificação</legend>
+            <div class="grid">
+              <label>
+                Nome do responsável (obrigatório)
+                <input id="guardianName" name="guardianName" type="text" autocomplete="name" required>
+              </label>
+              <label>
+                Telefone (obrigatório)
+                <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(00) 00000-0000" maxlength="15" required>
+              </label>
+              <label>
+                Nome do aluno (opcional)
+                <input id="studentName" name="studentName" type="text">
+              </label>
+              <label>
+                Série (opcional)
+                <input id="className" name="className" type="text">
+              </label>
+              <label class="wide">
+                Email (opcional)
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="Para receber os dados do pedido">
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Pedido</legend>
+            <p class="field-help">Escolha a quantidade de pizzas de cada sabor. Cada pizza custa R$ 50,00.</p>
+            <div class="pizza-grid">
+              <label class="pizza-row">
+                <span>
+                  <strong>Mussarela</strong>
+                  <small>R$ 50,00 cada</small>
+                </span>
+                <input id="mussarelaQty" name="mussarelaQty" type="number" min="0" step="1" value="0" inputmode="numeric">
+              </label>
+              <label class="pizza-row">
+                <span>
+                  <strong>Calabresa</strong>
+                  <small>R$ 50,00 cada</small>
+                </span>
+                <input id="calabresaQty" name="calabresaQty" type="number" min="0" step="1" value="0" inputmode="numeric">
+              </label>
+            </div>
+            <div class="total-strip" aria-live="polite">
+              <span>Total do pedido</span>
+              <strong id="orderTotal">R$ 0,00</strong>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Confirmação</legend>
+            <label class="checkline">
+              <input id="confirmOrder" name="confirmOrder" type="checkbox" required>
+              Você confirma o pedido?
+            </label>
+            <p class="notice">Seu pedido só será efetivado após o pagamento.</p>
+          </fieldset>
+
+          <button class="primary" type="submit">Gerar pedido</button>
+        </form>
+
+        <section id="receipt" class="receipt hidden" aria-live="polite"></section>
+      </section>
+
+      <section id="adminView" class="view" aria-labelledby="adminTitulo">
+        <div class="intro">
+          <h2 id="adminTitulo">Confirmação de pagamentos</h2>
+          <p>Pagamentos feitos pelo Mercado Pago são confirmados automaticamente. Use a confirmação manual apenas para pagamentos em dinheiro.</p>
+        </div>
+
+        <div class="toolbar">
+          <div class="summary">
+            <strong id="ordersCount">0 pedidos</strong>
+            <span id="paidCount">0 confirmados</span>
+          </div>
+          <div class="toolbar-actions">
+            <button id="backToOrder" class="secondary" type="button">Voltar ao pedido</button>
+            <button id="exportCsv" class="secondary" type="button">Baixar relatório CSV</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Responsável</th>
+                <th>Pedido</th>
+                <th>Aluno</th>
+                <th>Série</th>
+                <th>Mussarela</th>
+                <th>Calabresa</th>
+                <th>Total</th>
+                <th>Pagamento</th>
+                <th>Status</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <template id="receiptTemplate">
+      <article>
+        <h2>&#127829; Pedido recebido!</h2>
+        <p>Obrigado pela participação!</p>
+        <div class="message-box">
+          <p><strong>Nome do responsável:</strong> <span data-field="guardian"></span></p>
+          <p><strong>Seu número de pedido é:</strong> <span data-field="orderNumber"></span></p>
+          <p><strong>Status:</strong> aguardando confirmação de pagamento</p>
+          <p>Para efetivar o pedido, finalize o pagamento no link abaixo:</p>
+          <a data-field="paymentLink" class="pay-link" href="#" target="_blank" rel="noreferrer">Mercado Pago</a>
+          <p class="notice">Seu pedido só será efetivado após o pagamento.</p>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
